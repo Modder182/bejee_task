@@ -50,6 +50,13 @@ class ListView extends CommonView
                 } else {
                     $array['fulfilled'] = 'Выполнено';
                 }
+                
+                if ($array['admin_fulfilled'] === false) {
+                    $array['admin_fulfilled'] = 'Нет';
+                } else {
+                    $array['admin_fulfilled'] = 'Да';
+                }
+                
                 //наконец, добавляем массив в список задач
                 $content[] = $array;
             }

@@ -41,18 +41,26 @@ class __TwigTemplate_84fa0d250e69481ac1d258a2ffc28efe4d6ffcd7a3ad0cefe33fe3a2dff
             // line 10
             echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["task"], "fulfilled", array()), "html", null, true);
             echo "</p>
-\t\t\t\t";
+\t\t\t\t<p>Отредактировано администратором: ";
             // line 11
-            if (((isset($context["is_admin"]) || array_key_exists("is_admin", $context) ? $context["is_admin"] : (function () { throw new Twig_Error_Runtime('Variable "is_admin" does not exist.', 11, $this->getSourceContext()); })()) == true)) {
-                // line 12
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["task"], "admin_fulfilled", array()), "html", null, true);
+            echo "</p>
+\t\t\t\t";
+            // line 12
+            if (((isset($context["is_admin"]) || array_key_exists("is_admin", $context) ? $context["is_admin"] : (function () { throw new Twig_Error_Runtime('Variable "is_admin" does not exist.', 12, $this->getSourceContext()); })()) == true)) {
+                // line 13
                 echo "\t\t\t\t\t<form action=\"edit.php\" method=\"post\">
 \t\t\t\t\t\t<div class=\"form-group\">
 \t\t\t\t\t\t\t<label for=\"status\">Выполнено</label>
 \t\t\t\t\t\t\t<input type=\"checkbox\" id = \"status\" name=\"fulfilled\" value=\"1\">
 \t\t\t\t\t\t</div>
+\t\t\t\t\t\t<div class=\"form-group\" style=\"display: none\">
+\t\t\t\t\t\t\t<label for=\"status_todo\">Отредактировать</label>
+\t\t\t\t\t\t\t<input type=\"checkbox:checked\" id =\"status_todo\" name=\"admin_fulfilled\" value=\"1\">
+\t\t\t\t\t\t</div>
 \t\t\t\t\t\t<div class=\"form-group\">
 \t\t\t\t\t\t\t<input type=\"hidden\" name=\"task_id\" value=\"";
-                // line 18
+                // line 23
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["task"], "id", array()), "html", null, true);
                 echo "\">
 \t\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-default\">Редактировать</button>
@@ -60,7 +68,7 @@ class __TwigTemplate_84fa0d250e69481ac1d258a2ffc28efe4d6ffcd7a3ad0cefe33fe3a2dff
 \t\t\t\t\t</form>
 \t\t\t\t";
             }
-            // line 23
+            // line 28
             echo "\t\t\t</div>
 \t\t</div>
 \t</div>
@@ -69,12 +77,12 @@ class __TwigTemplate_84fa0d250e69481ac1d258a2ffc28efe4d6ffcd7a3ad0cefe33fe3a2dff
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['task'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 27
+        // line 32
         echo "<ul class=\"pagination\">
 \t";
-        // line 28
+        // line 33
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["queries"]) || array_key_exists("queries", $context) ? $context["queries"] : (function () { throw new Twig_Error_Runtime('Variable "queries" does not exist.', 28, $this->getSourceContext()); })()));
+        $context['_seq'] = twig_ensure_traversable((isset($context["queries"]) || array_key_exists("queries", $context) ? $context["queries"] : (function () { throw new Twig_Error_Runtime('Variable "queries" does not exist.', 33, $this->getSourceContext()); })()));
         $context['loop'] = array(
           'parent' => $context['_parent'],
           'index0' => 0,
@@ -89,7 +97,7 @@ class __TwigTemplate_84fa0d250e69481ac1d258a2ffc28efe4d6ffcd7a3ad0cefe33fe3a2dff
             $context['loop']['last'] = 1 === $length;
         }
         foreach ($context['_seq'] as $context["_key"] => $context["query"]) {
-            // line 29
+            // line 34
             echo "\t\t<li><a href=\"?";
             echo twig_escape_filter($this->env, $context["query"], "html", null, true);
             echo "\" class=\"inline-block\"> ";
@@ -108,7 +116,7 @@ class __TwigTemplate_84fa0d250e69481ac1d258a2ffc28efe4d6ffcd7a3ad0cefe33fe3a2dff
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['query'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 31
+        // line 36
         echo "</ul>";
     }
 
@@ -124,7 +132,7 @@ class __TwigTemplate_84fa0d250e69481ac1d258a2ffc28efe4d6ffcd7a3ad0cefe33fe3a2dff
 
     public function getDebugInfo()
     {
-        return array (  112 => 31,  93 => 29,  76 => 28,  73 => 27,  64 => 23,  56 => 18,  48 => 12,  46 => 11,  42 => 10,  38 => 9,  32 => 6,  28 => 5,  23 => 2,  19 => 1,);
+        return array (  120 => 36,  101 => 34,  84 => 33,  81 => 32,  72 => 28,  64 => 23,  52 => 13,  50 => 12,  46 => 11,  42 => 10,  38 => 9,  32 => 6,  28 => 5,  23 => 2,  19 => 1,);
     }
 
     public function getSourceContext()

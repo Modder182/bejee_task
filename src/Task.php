@@ -10,8 +10,9 @@ class Task
     private $email;
     private $text;
     private $fulfilled;
+    private $admin_fulfilled;
     
-    public function __construct($id, $userid, $username, $email, $text, $fulfilled)
+    public function __construct($id, $userid, $username, $email, $text, $fulfilled, $admin_fulfilled)
     {
         $this->setId($id);
         $this->setUserid($userid);
@@ -19,6 +20,7 @@ class Task
         $this->setEmail($email);
         $this->setText($text);
         $this->setFulfilled($fulfilled);
+        $this->setAdminFulfilled($admin_fulfilled);
     }
     
     /**
@@ -109,13 +111,6 @@ class Task
         return $this->text;
     }
     
-    /**
-     * @param mixed $imgPathRel
-     */
-    public function setImgPathRel($imgPathRel)
-    {
-        $this->imgPathRel = $imgPathRel;
-    }
     
     /**
      * @param boolean $fulfilled
@@ -138,6 +133,26 @@ class Task
     }
     
     /**
+     * @param boolean $admin_fulfilled
+     */
+    public function setAdminFulfilled($admin_fulfilled)
+    {
+        if (is_bool($admin_fulfilled)) {
+            $this->admin_fulfilled = $admin_fulfilled;
+        } else {
+            throw new \Exception('Состояние задачи не bool');
+        }
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getAdminFulfilled()
+    {
+        return $this->admin_fulfilled;
+    }
+    
+    /**
      * @return array
      */
     public function getArray()
@@ -147,7 +162,8 @@ class Task
             'username'   => $this->getUsername(),
             'email'      => $this->getEmail(),
             'text'       => $this->getText(),
-            'fulfilled'  => $this->getFulfilled()
+            'fulfilled'  => $this->getFulfilled(),
+            'admin_fulfilled'  => $this->getAdminFulfilled()
         );
         return $result;
     }

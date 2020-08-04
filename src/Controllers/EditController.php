@@ -34,6 +34,7 @@ class EditController extends PageController
         $isAdmin = $loginMan->isAdmin();
         if ($authorized AND $isAdmin) {
             $statusChanged = $this->checkAndChangeStatus($_POST, $taskmapper);
+            $statusChanged = $this->checkAndChangeMarkStatus($_POST, $taskmapper);
             //проверяем в инпуте наличие айди, без него - исключение
             $taskID = $this->checkTaskID($_POST);
             $editResult = $this->checkAndChangeNewText($_POST, $taskmapper);
@@ -56,9 +57,20 @@ class EditController extends PageController
     function checkAndChangeStatus($input, TaskMapper $taskmapper)
     {
         $result = false;
-        if (array_key_exists('fulfilled', $input) AND $input['fulfilled'] === '1') {
+        if (array_key_exists('admin_fulfilled', $input) AND $input['fulfilled'] === '1') {
             if (array_key_exists('task_id', $input)) {
                 $result = $taskmapper->changeStatus((int)$input['task_id'], true);
+            }
+        }
+        return $result;
+    }
+    
+    function checkAndChangeMarkStatus($input, TaskMapper $taskmapper)
+    {
+        $result = false;
+        if (array_key_exists('fulfilled', $input) AND $input['fulfilled'] === '1') {
+            if (array_key_exists('task_id', $input)) {
+                $result = $taskmapper->changeStatusParraler((int)$input['task_id'], true);
             }
         }
         return $result;

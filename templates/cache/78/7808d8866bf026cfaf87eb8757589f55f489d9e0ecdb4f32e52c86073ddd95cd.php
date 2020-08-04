@@ -25,6 +25,7 @@ class __TwigTemplate_2d79d06c0f4d5bac6d7218b38614b2b36686bebba9a73d0766dad1c9e35
 \t\t\t\t\t<option value=\"username\">Имя пользователя</option>
 \t\t\t\t\t<option value=\"e-mail\">Почта</option>
 \t\t\t\t\t<option value=\"fulfilled\">Статус</option>
+\t\t\t\t\t<option value=\"admin_fulfilled\">Отредактировано</option>
 \t\t\t\t</select>
 \t\t\t</div>
 \t\t\t<div class=\"form-group \" >

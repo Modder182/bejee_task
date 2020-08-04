@@ -22,7 +22,7 @@ class TaskMapper
     function getTask($id)
     {
         try {
-            $sql = 'SELECT `userid`, `username`, `e-mail`, `text`, `fulfilled` FROM `tasks` WHERE `id` = :id';
+            $sql = 'SELECT `userid`, `username`, `e-mail`, `text`, `admin_fulfilled`, `fulfilled` FROM `tasks` WHERE `id` = :id';
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
             $result = $stmt->execute();
@@ -33,6 +33,7 @@ class TaskMapper
                     $assoc['username'],
                     $assoc['e-mail'],
                     $assoc['text'],
+                    (bool)$assoc['admin_fulfilled'],
                     (bool)$assoc['fulfilled']);
             }
         } catch (\PDOException $e) {
@@ -57,7 +58,7 @@ class TaskMapper
             $tasks = array();
         
             $sql = "SELECT SQL_CALC_FOUND_ROWS
-                    `id`, `userid`, `username`, `e-mail`, `text`, `fulfilled`
+                    `id`, `userid`, `username`, `e-mail`, `text`, `admin_fulfilled`, `fulfilled`
                     FROM `tasks`
                     ORDER BY `$sortBy` $order
                     LIMIT :limit OFFSET :offset";
@@ -93,14 +94,15 @@ class TaskMapper
     {
         try {
             $username = $userMapper->getUser($userid)->getName();
-            $sql = 'INSERT INTO `tasks`(`userid`, `username`, `e-mail`, `text`, `fulfilled`)
-                    VALUES (:userid, :username, :email, :text, :fulfilled)';
+            $sql = 'INSERT INTO `tasks`(`userid`, `username`, `e-mail`, `text`, `fulfilled`, `admin_fulfilled`)
+                    VALUES (:userid, :username, :email, :text, :fulfilled, :admin_fulfilled)';
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':userid', $userid, \PDO::PARAM_INT);
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':text', $text);
             $stmt->bindValue(':fulfilled', false,\PDO::PARAM_INT);
+            $stmt->bindValue(':admin_fulfilled', false,\PDO::PARAM_INT);
             $result = $stmt->execute();
             
             if ( ($result !== false) AND ($this->lastInsertedId() !== 0) ) {
@@ -149,10 +151,25 @@ class TaskMapper
      * @return bool
      * @throws \Exception
      */
-    function changeStatus($taskID, $fulfilled)
+    function changeStatus($taskID, $admin_fulfilled)
     {
         try {
-            $sql = 'UPDATE `tasks` SET `fulfilled` = :status WHERE `id` = :id';
+            $sql = 'UPDATE `tasks` SET `admin_fulfilled` = :status_todo  WHERE `id` = :id';
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':id', $taskID, \PDO::PARAM_INT);
+            $status_todo = (int)$admin_fulfilled;
+            $stmt->bindParam(':status_todo', $status_todo, \PDO::PARAM_INT);
+            $result = $stmt->execute();
+        } catch (\PDOException $e) {
+            throw new \Exception('Ошибка при изменении статуса задачи.', 0, $e);
+        }
+        return $result;
+    }
+    
+    function changeStatusParraler($taskID, $fulfilled)
+    {
+        try {
+            $sql = 'UPDATE `tasks` SET `fulfilled` = :status  WHERE `id` = :id';
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':id', $taskID, \PDO::PARAM_INT);
             $status = (int)$fulfilled;
@@ -163,7 +180,6 @@ class TaskMapper
         }
         return $result;
     }
-    
     /**
      * @return int|bool
      * @throws \Exception
@@ -211,7 +227,7 @@ class TaskMapper
      */
     private function convertToObject($row)
     {
-        $required = array('id' => 1, 'userid' => 2, 'username' => 3, 'e-mail' => 4, 'text' => 5, 'fulfilled' => 6);
+        $required = array('id' => 1, 'userid' => 2, 'username' => 3, 'e-mail' => 4, 'text' => 5, 'fulfilled' => 6, 'admin_fulfilled' => 7);
         if (( !is_array($row) )  || ( !empty(array_diff_key($required, $row)) )) {
             throw new \Exception('Строка не содержит нужных данных');
         }
@@ -221,7 +237,8 @@ class TaskMapper
                          (string)$row['username'],
                          (string)$row['e-mail'],
                          (string)$row['text'],
-                         (bool)$row['fulfilled']);
+                         (bool)$row['fulfilled'],
+                         (bool)$row['admin_fulfilled']);
         return $task;
     }
     

@@ -21,8 +21,8 @@ class __TwigTemplate_5d5461cec42cf863c156dac6de3a4958441fce4d8ef367546342951e6fa
         echo "<!DOCTYPE html>
 <html>
 \t<head>
-        <link rel=\"stylesheet\" type=\"text/css\" href=\"/css/error.css\"/>
-\t\t<title>Oops, something went wrong</title>
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"https://authorizationform.000webhostapp.com/public/css/error.css\"/>
+\t\t<title>Упс, что-то пошло не так</title>
 \t\t<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"/>
 \t</head>
 \t<body>
