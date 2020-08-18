@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Shinoa
- * Date: 12.08.2017
- * Time: 20:48
- */
 
 namespace BeeJee\Input;
 
